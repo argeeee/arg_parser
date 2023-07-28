@@ -1,9 +1,9 @@
 #include <gtest/gtest.h>
 
-#include "option_parser/option_parser.hpp"
+#include "arg_parser/arg_parser.hpp"
 
 // Example test case
-TEST(OptionParserTest, test) {
+TEST(ArgParserTest, testMethod) {
 	ASSERT_EQ(test(), 42);
 }
 

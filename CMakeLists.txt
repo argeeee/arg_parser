@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.20.3)
 
-project(option_parser)
+project(arg_parser)
 
 # Set the version of your project
-set(OPTION_PARSER_VERSION "0.0.1")
+set(ARG_PARSER_VERSION "0.0.1")
 
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 17)
