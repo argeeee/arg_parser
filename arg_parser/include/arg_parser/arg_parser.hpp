@@ -63,7 +63,7 @@ class Option {
 };
 
 class Flag {
- public:
+public:
 	Flag(const std::string& name, char abbr = '\0', bool negatable = true)
 		: name(name), abbr(abbr), negatable(negatable)
 	{
@@ -74,7 +74,24 @@ class Flag {
 		this->callback = std::move(callback);
 	}
 
- private:
+	// Getters
+	const std::string& getName() const {
+		return name;
+	}
+
+	char getAbbr() const {
+		return abbr;
+	}
+
+	bool isNegatable() const {
+		return negatable;
+	}
+
+	const std::function<void()>& getCallback() const {
+		return callback;
+	}
+
+private:
 	std::string name;
 	char abbr;
 	bool negatable;

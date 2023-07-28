@@ -50,6 +50,39 @@ TEST(OptionTest, SetCallback) {
 	EXPECT_TRUE(callbackCalled);
 }
 
+// Test the getters of the Flag class
+TEST(FlagTest, GettersTest) {
+	// Create a Flag object for testing
+	Flag flag("verbose", 'v', true);
+	std::function<void()> dummyCallback = []() {};
+
+	// Set a callback for the flag
+	flag.setCallback(dummyCallback);
+
+	// Test the getters
+	EXPECT_EQ(flag.getName(), "verbose");
+	EXPECT_EQ(flag.getAbbr(), 'v');
+	EXPECT_EQ(flag.isNegatable(), true);
+}
+
+// Test setting a callback for the Flag class
+TEST(FlagTest, SetCallbackTest) {
+	// Create a Flag object for testing
+	Flag flag("debug", 'd', false);
+	bool callbackCalled = false;
+
+	// Set a callback for the flag
+	flag.setCallback([&callbackCalled]() {
+			callbackCalled = true;
+	});
+
+	// Execute the callback
+	flag.getCallback()();
+
+	// Test if the callback was executed
+	EXPECT_TRUE(callbackCalled);
+}
+
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();
