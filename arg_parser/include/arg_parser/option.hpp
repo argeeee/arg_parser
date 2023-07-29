@@ -117,6 +117,22 @@ class Option {
 	bool isSingle() const { return type == OptionType::single; }
 	bool isMultiple() const { return type == OptionType::multiple; }
 
+	const std::string& getName() const { return name; }
+	const std::optional<std::string>& getHelp() const { return help; }
+	const std::optional<std::string>& getValueHelp() const { return valueHelp; }
+	const std::optional<std::vector<std::string>>& getAllowed() const { return allowed; }
+	const std::optional<std::map<std::string, std::string>>& getAllowedHelp() const { return allowedHelp; }
+	const std::optional<Object>& getDefaultsTo() const { return defaultsTo; }
+	const std::optional<std::function<void(const Object&)>>& getCallback() const { return callback; }
+	OptionType getType() const { return type; }
+	const std::optional<bool>& isNegatable() const { return negatable; }
+	const std::optional<bool>& shouldSplitCommas() const { return splitCommas; }
+	const std::optional<std::string>& getAbbr() const { return abbr; }
+	const std::optional<std::vector<std::string>>& getAliases() const { return aliases; }
+
+	bool isMandatory() const { return mandatory; }
+	bool isHidden() const { return hide; }
+
 	// Method to return the value if non-null, otherwise the default value
 	Object valueOrDefault(const Object& value) const {
 		if (value.isBool() || value.isInt() || !value.getString().empty()) return value;
