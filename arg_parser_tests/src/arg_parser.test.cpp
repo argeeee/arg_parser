@@ -2,6 +2,7 @@
 
 #include "arg_parser/arg_parser.hpp"
 #include "arg_parser/option.hpp"
+#include "arg_parser/utils.hpp"
 
 TEST(ObjectTest, CheckValue) {
 	// Test int value
@@ -97,6 +98,73 @@ TEST(OptionTest, CheckOptionCallback) {
 	EXPECT_TRUE(callbackCalled);
 }
 
+TEST(PadRightTest, BasicTest) {
+	// Test basic padding functionality
+	EXPECT_EQ(padRight("Hello", 10), "Hello     ");
+}
+
+TEST(PadRightTest, LongString) {
+	// Test padding with a long string, no truncation should happen
+	EXPECT_EQ(padRight("ThisIsALongString", 10), "ThisIsALongString");
+}
+
+TEST(WrapTextTest, BasicTest) {
+	// Test basic text wrapping
+	const std::string text = "This is a long paragraph that needs to be wrapped.";
+	const std::string expectedOutput = "This is a\nlong\nparagraph\nthat needs\nto be\nwrapped.\n";
+	EXPECT_EQ(wrapText(text, 10), expectedOutput);
+}
+
+TEST(WrapTextTest, LongWords) {
+	// Test text wrapping with long words
+	const std::string text = "This is a paragraph withaverylongwordthatneedstobewrapped.";
+	const std::string expectedOutput = "This is a\nparagraph\nwithaveryl\nongwordtha\ntneedstobe\nwrapped.\n";
+	EXPECT_EQ(wrapText(text, 10), expectedOutput);
+}
+
+TEST(WrapTextAsLinesTest, BasicTest) {
+	// Test basic line wrapping
+	const std::string text = "This is a long paragraph that needs to be wrapped.";
+	const std::vector<std::string> expectedOutput = {
+			"This is a",
+			"long",
+			"paragraph",
+			"that needs",
+			"to be",
+			"wrapped."
+	};
+	EXPECT_EQ(wrapTextAsLines(text, 0, 10), expectedOutput);
+}
+
+TEST(WrapTextAsLinesTest, StartAndLength) {
+	// Test line wrapping with specified start and length
+	const std::string text = "This is a long paragraph that needs to be wrapped.";
+	const std::vector<std::string> expectedOutput = {
+			"This is a",
+			"long",
+			"paragraph",
+			"that needs",
+			"to be",
+			"wrapped."
+	};
+	EXPECT_EQ(wrapTextAsLines(text, 5, 10), expectedOutput);
+}
+
+TEST(IsWhitespaceTest, BasicTest) {
+	// Test the isWhitespace function with various whitespace characters
+	const std::string text = " \t\n\r\f\v";
+	for (int i = 0; i < text.length(); ++i) {
+			EXPECT_TRUE(isWhitespace(text, i));
+	}
+}
+
+TEST(IsWhitespaceTest, NonWhitespaceCharacters) {
+	// Test the isWhitespace function with non-whitespace characters
+	const std::string text = "Hello";
+	for (int i = 0; i < text.length(); ++i) {
+			EXPECT_FALSE(isWhitespace(text, i));
+	}
+}
 
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);
