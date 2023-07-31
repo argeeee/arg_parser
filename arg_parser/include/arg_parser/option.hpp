@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <sstream>
 #include <vector>
 #include <map>
 #include <iostream>
@@ -39,9 +40,29 @@ class Object {
 	const std::string& getString() const { return std::get<std::string>(value); }
 	const std::vector<Object>& getList() const { return std::get<std::vector<Object>>(value); }
 
+	std::string toString() const {
+		std::stringstream ss;
+		std::visit([&ss](const auto& arg) {
+				ss << arg;
+		}, value);
+		return ss.str();
+	}
+
 private:
 	ValueType value;
 };
+
+// Overload the << operator for std::vector<Object>
+std::ostream& operator<<(std::ostream& os, const std::vector<Object>& vec) {
+	os << "[";
+	for (size_t i = 0; i < vec.size(); ++i) {
+		os << vec[i].toString();
+		if (i < vec.size() - 1)
+			os << ", ";
+	}
+	os << "]";
+	return os;
+}
 
 // Function to create a new Option
 Option newOption(
